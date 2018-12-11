@@ -42,14 +42,18 @@ public abstract class ExtendedResourceUtils extends ResourceUtils {
 		FileUtils.copyFile(file, getFile(resource.getURI()));
 	}
 
-	public static void write(Resource resource, MultipartFile file) throws IOException {
+	public static void write(Resource resource, MultipartFile file, File fixedFile) throws IOException {
 		if (resource instanceof WritableResource) {
-//			IOUtils.copy(file.getInputStream(), ((WritableResource) resource).getOutputStream());
 			try (InputStream input = file.getInputStream(); OutputStream output = ((WritableResource) resource).getOutputStream()) {
 				IOUtils.copy(input, output);
 			}
 			return;
 		}
-		FileUtils.copyInputStreamToFile(file.getInputStream(), getFile(resource.getURI()));
+		if (!resource.exists()) {
+			fixedFile.createNewFile();
+			FileUtils.copyInputStreamToFile(file.getInputStream(), fixedFile);
+		} else {
+			FileUtils.copyInputStreamToFile(file.getInputStream(), getFile(resource.getURI()));
+		}
 	}
 }

@@ -16,6 +16,8 @@
 
 package org.wallride.service;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.core.io.Resource;
@@ -30,12 +32,15 @@ import org.wallride.domain.Media;
 import org.wallride.repository.MediaRepository;
 import org.wallride.support.ExtendedResourceUtils;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
 @Service
 @Transactional(rollbackFor=Exception.class)
 public class MediaService {
+
+	private static Logger logger = LoggerFactory.getLogger(MediaService.class);
 
 	@Autowired
 	private ResourceLoader resourceLoader;
@@ -57,10 +62,13 @@ public class MediaService {
 			Resource prefix = resourceLoader.getResource(wallRideProperties.getMediaLocation());
 			Resource resource = prefix.createRelative(media.getId());
 //			AmazonS3ResourceUtils.writeMultipartFile(file, resource);
-			ExtendedResourceUtils.write(resource, file);
+			ExtendedResourceUtils.write(resource, file, new File(wallRideProperties.getMediaLocation(), media.getId()));
 		}
 		catch (IOException e) {
+			logger.error("An error has occurred during media creation: ", e);
 			throw new RuntimeException(e);
+		} catch (Exception e){
+			logger.error("An error has occurred during media creation: ", e);
 		}
 
 		return media;

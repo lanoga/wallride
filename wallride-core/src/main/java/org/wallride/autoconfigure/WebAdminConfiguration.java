@@ -77,6 +77,8 @@ public class WebAdminConfiguration extends DelegatingWebMvcConfiguration {
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
 		registry.addResourceHandler("/resources/**").addResourceLocations("classpath:/resources/admin/");
 		registry.addResourceHandler("/webjars/**").addResourceLocations("classpath:/META-INF/resources/webjars/");
+		registry.addResourceHandler("/media/**")
+				.addResourceLocations("file:/" + System.getProperty(WallRideProperties.MEDIA_LOCATION_PROPERTY));
 		registry.setOrder(Integer.MIN_VALUE);
 	}
 

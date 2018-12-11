@@ -52,6 +52,7 @@ public class WallRideInitializer implements ApplicationListener<ApplicationStart
 		StandardEnvironment environment = new StandardEnvironment();
 
 		String home = environment.getProperty(WallRideProperties.HOME_PROPERTY);
+//		System.out.println(System.getProperty(WallRideProperties.HOME_PROPERTY));
 		if (!StringUtils.hasText(home)) {
 			//try to get config-File with wallride.home parameter under webroot
 			String configFileHome = getConfigFileHome(event);

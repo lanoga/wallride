@@ -84,6 +84,8 @@ public class WallRideWebMvcConfiguration implements WebMvcConfigurer {
 				.setCachePeriod(cachePeriod == null ? null : (int) cachePeriod.getSeconds());
 		registry.addResourceHandler("/webjars/**").addResourceLocations("classpath:/META-INF/resources/webjars/")
 				.setCachePeriod(cachePeriod == null ? null : (int) cachePeriod.getSeconds());
+		registry.addResourceHandler("/media/**")
+				.addResourceLocations("file:/" + System.getProperty(WallRideProperties.MEDIA_LOCATION_PROPERTY));
 		registry.setOrder(Integer.MIN_VALUE);
 	}
 
