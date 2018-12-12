@@ -28,6 +28,8 @@ import org.springframework.context.annotation.Import;
 import org.springframework.core.Ordered;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.scheduling.annotation.EnableAsync;
+import org.wallride.config.DbConfig;
+import org.wallride.flatshares.repository.PropertyJdbcRepository;
 import org.wallride.repository.BlogRepository;
 import org.wallride.service.BlogService;
 
@@ -47,6 +49,8 @@ import org.wallride.service.BlogService;
 		WallRideServletConfiguration.class,
 		WallRideThymeleafConfiguration.class,
 		WallRideWebMvcConfiguration.class,
+		DbConfig.class,
+		PropertyJdbcRepository.class,
 })
 @ComponentScan(basePackageClasses = BlogService.class)
 public class WallRideAutoConfiguration {
